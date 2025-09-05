@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mantenimiento de Equipo de Cómputo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .step-container {
+            border: 1px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            background-color: #f9fafb;
+        }
+        .collapsible-header {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #1f2937;
+            background-color: #dcfce7; /* bg-green-100 */
+            border: 1px solid #bbf7d4; /* border-green-200 */
+            padding: 1rem;
+            border-radius: 0.75rem;
+        }
+        .collapsible-content {
+            display: none;
+            padding-top: 1rem;
+        }
+        .collapsible-content.open {
+            display: block;
+        }
+        .button {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .button:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-8">
+
+    <div class="container">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Mantenimiento de Equipo de Cómputo</h1>
+        <p class="text-center text-gray-600 mb-8">
+            Sigue estos pasos para realizar un mantenimiento completo de tu equipo. Completa la información en cada sección para generar un informe al final.
+        </p>
+
+        <!-- Sección de Datos del Mantenimiento -->
+        <div class="step-container">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Datos del Mantenimiento</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label for="technician" class="block text-sm font-medium text-gray-700">Técnico:</label>
+                    <input type="text" id="technician" class="mt-1 block w-full rounded-md bg-blue-100 border-blue-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2" placeholder="Nombre del Técnico">
+                </div>
+                <div>
+                    <label for="date" class="block text-sm font-medium text-gray-700">Fecha:</label>
+                    <input type="date" id="date" class="mt-1 block w-full rounded-md bg-blue-100 border-blue-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2">
+                </div>
+                <div>
+                    <label for="equipment" class="block text-sm font-medium text-gray-700">Equipo:</label>
+                    <input type="text" id="equipment" class="mt-1 block w-full rounded-md bg-blue-100 border-blue-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2" placeholder="Ej: Laptop, PC de escritorio">
+                </div>
+                <div>
+                    <label for="serialNumber" class="block text-sm font-medium text-gray-700">Número de Serie:</label>
+                    <input type="text" id="serialNumber" class="mt-1 block w-full rounded-md bg-blue-100 border-blue-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2" placeholder="Número de serie del equipo">
+                </div>
+                 <div>
+                    <label for="apprenticeName" class="block text-sm font-medium text-gray-700">Nombre del Aprendiz:</label>
+                    <input type="text" id="apprenticeName" class="mt-1 block w-full rounded-md bg-blue-100 border-blue-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2" placeholder="Nombre del Aprendiz">
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de Mantenimiento Físico -->
+        <div class="step-container mt-8">
+            <div class="collapsible-header" onclick="toggleCollapsible('physical-maintenance')">
+                <h2 class="text-xl font-semibold text-gray-800">1. Mantenimiento Físico</h2>
+                <span class="text-gray-500 text-xl font-bold">+</span>
+            </div>
+            <div id="physical-maintenance" class="collapsible-content">
+                <p class="text-gray-600 mb-4">
+                    <strong>Finalidad:</strong> Limpiar los componentes internos y externos del equipo para prevenir el sobrecalentamiento y la acumulación de suciedad que puede dañar los circuitos. Esto prolonga la vida útil del hardware.
+                </p>
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="font-medium text-gray-700">Limpieza de Componentes Externos (Carcasa, pantalla, teclado)</h3>
+                        <textarea id="externalNotes" rows="2" class="mt-1 block w-full rounded-md bg-blue-100 border-blue-200 shadow-sm p-2" placeholder="Anotaciones (Ej: se limpió el teclado con aire comprimido)"></textarea>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-gray-700">Limpieza de Componentes Internos (Ventiladores, disipadores, placa base)</h3>
+                        <textarea id="internalNotes" rows="2" class="mt-1 block w-full rounded-md bg-blue-100 border-blue-200 shadow-sm p-2" placeholder="Anotaciones (Ej: se retiró el polvo de los ventiladores)"></textarea>
+                    </div>
+                    <div>
+                        <label class="font-medium text-gray-700 block mb-2">Tareas de Mantenimiento Físico:</label>
+                        <ul class="space-y-2">
+                            <li>
+                                <label class="inline-flex items-center">
+                                    <input type="checkbox" id="physicalTask1" class="form-checkbox text-blue-600 rounded">
+                                    <span class="ml-2 text-gray-700">Limpieza de ventiladores y disipadores.</span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="inline-flex items-center">
+                                    <input type="checkbox" id="physicalTask2" class="form-checkbox text-blue-600 rounded">
+                                    <span class="ml-2 text-gray-700">Reemplazo de pasta térmica (si aplica).</span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-gray-700">Estado General del Gabinete/Carcasa</h3>
+                        <textarea id="caseConditionNotes" rows="2" class="mt-1 block w-full rounded-md bg-blue-100 border-blue-200 shadow-sm p-2" placeholder="Notas sobre rayones, abolladuras o piezas faltantes."></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de Mantenimiento Lógico -->
+        <div class="step-container mt-8">
+            <div class="collapsible-header" onclick="toggleCollapsible('logical-maintenance')">
+                <h2 class="text-xl font-semibold text-gray-800">2. Mantenimiento Lógico</h2>
+                <span class="text-gray-500 text-xl font-bold">+</span>
+            </div>
+            <div id="logical-maintenance" class="collapsible-content">
+                <p class="text-gray-600 mb-4">
+                    <strong>Finalidad:</strong> Optimizar el rendimiento del sistema operativo y los programas. Esto incluye eliminar archivos innecesarios, desfragmentar el disco y asegurar que el software esté libre de amenazas, mejorando la velocidad y estabilidad.
+                </p>
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="font-medium text-gray-700">Análisis y Eliminación de Software Malicioso</h3>
+                        <textarea id="malwareNotes" rows="2" class="mt-1 block w-full rounded-md bg-blue-100 border-blue-200 shadow-sm p-2" placeholder="Anotaciones (Ej: se realizó un escaneo completo con Antivirus X, se eliminaron 3 amenazas)"></textarea>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-gray-700">Desfragmentación de Disco Duro / Optimización de SSD</h3>
+                        <textarea id="defragNotes" rows="2" class="mt-1 block w-full rounded-md bg-blue-100 border-blue-200 shadow-sm p-2" placeholder="Anotaciones (Ej: se ejecutó el desfragmentador de Windows)"></textarea>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-gray-700">Actualización de Sistema Operativo y Controladores</h3>
+                        <textarea id="updatesNotes" rows="2" class="mt-1 block w-full rounded-md bg-blue-100 border-blue-200 shadow-sm p-2" placeholder="Anotaciones (Ej: se instalaron las últimas actualizaciones de Windows)"></textarea>
+                    </div>
+                    <div>
+                        <label class="font-medium text-gray-700 block mb-2">Tareas de Mantenimiento Lógico:</label>
+                        <ul class="space-y-2">
+                            <li>
+                                <label class="inline-flex items-center">
+                                    <input type="checkbox" id="logicalTask1" class="form-checkbox text-blue-600 rounded">
+                                    <span class="ml-2 text-gray-700">Verificación de integridad de archivos del sistema.</span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="inline-flex items-center">
+                                    <input type="checkbox" id="logicalTask2" class="form-checkbox text-blue-600 rounded">
+                                    <span class="ml-2 text-gray-700">Copia de seguridad de datos.</span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-gray-700">Programas Adicionales Instalados/Desinstalados</h3>
+                        <textarea id="softwareChangesNotes" rows="2" class="mt-1 block w-full rounded-md bg-blue-100 border-blue-200 shadow-sm p-2" placeholder="Detalles de software agregado o eliminado."></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de Disposición Final de RAEE -->
+        <div class="step-container mt-8">
+            <div class="collapsible-header" onclick="toggleCollapsible('raee-disposal')">
+                <h2 class="text-xl font-semibold text-gray-800">3. Disposición Final de Residuos RAEE</h2>
+                <span class="text-gray-500 text-xl font-bold">+</span>
+            </div>
+            <div id="raee-disposal" class="collapsible-content">
+                <p class="text-gray-600 mb-4">
+                    <strong>Finalidad:</strong> Gestionar de forma segura los Residuos de Aparatos Eléctricos y Electrónicos (RAEE) para evitar la contaminación ambiental. El objetivo es reciclar los materiales valiosos y desechar de forma adecuada los componentes tóxicos.
+                </p>
+                <div class="space-y-4">
+                    <div>
+                        <label class="font-medium text-gray-700 block mb-2">Clasificación del Residuos:</label>
+                        <select id="raeeType" class="mt-1 block w-full rounded-md bg-blue-100 border-blue-200 shadow-sm p-2">
+                            <option value="">Selecciona un tipo...</option>
+                            <option value="Equipo de cómputo obsoleto">Equipo de cómputo obsoleto</option>
+                            <option value="Laptop/PC">Laptop/PC</option>
+                            <option value="Monitor/Pantalla">Monitor/Pantalla</option>
+                            <option value="Teclado/Mouse">Teclado/Mouse</option>
+                            <option value="Componente Interno (HDD, RAM)">Componente Interno (HDD, RAM)</option>
+                            <option value="Batería/Fuente de poder">Batería/Fuente de poder</option>
+                            <option value="Otros">Otros</option>
+                        </select>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-gray-700">Método de Disposición</h3>
+                        <textarea id="disposalMethod" rows="2" class="mt-1 block w-full rounded-md bg-blue-100 border-blue-200 shadow-sm p-2" placeholder="Ej: Se entregó a centro de reciclaje certificado, se donó a institución"></textarea>
+                    </div>
+                    <div>
+                        <label class="inline-flex items-center">
+                            <input type="checkbox" id="raeeTask1" class="form-checkbox text-blue-600 rounded">
+                            <span class="ml-2 text-gray-700">Borrado de datos seguro.</span>
+                        </label>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-gray-700">Notas de Transferencia/Certificado de Destrucción</h3>
+                        <textarea id="certificateNotes" rows="2" class="mt-1 block w-full rounded-md bg-blue-100 border-blue-200 shadow-sm p-2" placeholder="Detalles del proceso de transferencia o número de certificado."></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botón para generar y descargar informe -->
+        <div class="mt-8 text-center">
+            <button id="generatePdfBtn" onclick="generatePDF()" class="button bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition-all duration-300">
+                Generar y Descargar Informe PDF
+            </button>
+        </div>
+
+        <!-- Contenedor del informe para el PDF (invisible en la página) -->
+        <div id="reportContainer" class="hidden">
+            <div id="reportContent" class="p-8 bg-white" style="width: 216mm; min-height: 279mm; padding-top: 10mm;">
+                <!-- Nuevo encabezado con la información solicitada -->
+                <div class="text-center mb-6">
+                    <h1 class="text-2xl font-bold">PROGRAMA SENATIC</h1>
+                    <h2 class="text-xl font-semibold text-gray-600">TÉCNICO EN SISTEMAS TELEINFORMÁTICOS</h2>
+                </div>
+                <h1 class="text-2xl font-bold text-center mb-6">Informe de Mantenimiento de Equipo de Cómputo</h1>
+                <div class="mb-6">
+                    <p class="text-center"><strong>Nombre del Aprendiz:</strong> <span id="reportApprenticeName"></span></p>
+                    <p><strong>Técnico:</strong> <span id="reportTechnician"></span></p>
+                    <p><strong>Fecha:</strong> <span id="reportDate"></span></p>
+                    <p><strong>Equipo:</strong> <span id="reportEquipment"></span></p>
+                    <p><strong>Número de Serie:</strong> <span id="reportSerialNumber"></span></p>
+                </div>
+
+                <div class="mb-6">
+                    <h2 class="text-xl font-bold mb-2">1. Mantenimiento Físico</h2>
+                    <p><strong>Finalidad:</strong> Limpiar los componentes internos y externos del equipo para prevenir el sobrecalentamiento y la acumulación de suciedad que puede dañar los circuitos. Esto prolonga la vida útil del hardware.</p>
+                    <p><strong>Notas de Limpieza Externa:</strong> <br><span id="reportExternalNotes"></span></p>
+                    <p><strong>Notas de Limpieza Interna:</strong> <br><span id="reportInternalNotes"></span></p>
+                    <p><strong>Tareas Realizadas:</strong> <br><span id="reportPhysicalTasks"></span></p>
+                    <p><strong>Estado del Gabinete/Carcasa:</strong> <br><span id="reportCaseConditionNotes"></span></p>
+                </div>
+                
+                <hr style="border-top: 3px solid #10b981; margin: 1.5rem 0;">
+
+                <div class="mb-6">
+                    <h2 class="text-xl font-bold mb-2">2. Mantenimiento Lógico</h2>
+                    <p><strong>Finalidad:</strong> Optimizar el rendimiento del sistema operativo y los programas. Esto incluye eliminar archivos innecesarios, desfragmentar el disco y asegurar que el software esté libre de amenazas, mejorando la velocidad y estabilidad.</p>
+                    <p><strong>Notas de Software Malicioso:</strong> <br><span id="reportMalwareNotes"></span></p>
+                    <p><strong>Notas de Desfragmentación/Optimización:</strong> <br><span id="reportDefragNotes"></span></p>
+                    <p><strong>Notas de Actualizaciones:</strong> <br><span id="reportUpdatesNotes"></span></p>
+                    <p><strong>Tareas Realizadas:</strong> <br><span id="reportLogicalTasks"></span></p>
+                    <p><strong>Programas Modificados:</strong> <br><span id="reportSoftwareChangesNotes"></span></p>
+                </div>
+                
+                <hr style="border-top: 3px solid #10b981; margin: 1.5rem 0;">
+
+                <div class="mb-6">
+                    <h2 class="text-xl font-bold mb-2">3. Disposición Final de RAEE</h2>
+                    <p><strong>Finalidad:</strong> Gestionar de forma segura los Residuos de Aparatos Eléctricos y Electrónicos (RAEE) para evitar la contaminación ambiental. El objetivo es reciclar los materiales valiosos y desechar de forma adecuada los componentes tóxicos.</p>
+                    <p><strong>Tipo de RAEE:</strong> <br><span id="reportRaeType"></span></p>
+                    <p><strong>Método de Disposición:</strong> <br><span id="reportDisposalMethod"></span></p>
+                    <p><strong>Detalles de Disposición:</strong> <br><span id="reportDisposalTasks"></span></p>
+                    <p><strong>Notas de Transferencia:</strong> <br><span id="reportCertificateNotes"></span></p>
+                </div>
+
+                <div class="mt-12 text-center text-gray-500 text-sm">
+                    <p>Este informe fue generado automáticamente.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Función para colapsar y expandir secciones
+        function toggleCollapsible(id) {
+            const content = document.getElementById(id);
+            const header = content.previousElementSibling;
+            const plusIcon = header.querySelector('span');
+
+            if (content.classList.contains('open')) {
+                content.classList.remove('open');
+                plusIcon.textContent = '+';
+            } else {
+                content.classList.add('open');
+                plusIcon.textContent = '-';
+            }
+        }
+
+        // Función principal para generar el PDF
+        async function generatePDF() {
+            // Mostrar un mensaje de carga
+            const button = document.getElementById('generatePdfBtn');
+            const originalText = button.textContent;
+            button.textContent = 'Generando...';
+            button.disabled = true;
+
+            try {
+                // Actualizar el contenido del informe HTML con los datos del formulario
+                document.getElementById('reportApprenticeName').textContent = document.getElementById('apprenticeName').value || 'N/A';
+                document.getElementById('reportTechnician').textContent = document.getElementById('technician').value || 'N/A';
+                document.getElementById('reportDate').textContent = document.getElementById('date').value || 'N/A';
+                document.getElementById('reportEquipment').textContent = document.getElementById('equipment').value || 'N/A';
+                document.getElementById('reportSerialNumber').textContent = document.getElementById('serialNumber').value || 'N/A';
+                document.getElementById('reportExternalNotes').textContent = document.getElementById('externalNotes').value || 'N/A';
+                document.getElementById('reportInternalNotes').textContent = document.getElementById('internalNotes').value || 'N/A';
+                document.getElementById('reportMalwareNotes').textContent = document.getElementById('malwareNotes').value || 'N/A';
+                document.getElementById('reportDefragNotes').textContent = document.getElementById('defragNotes').value || 'N/A';
+                document.getElementById('reportUpdatesNotes').textContent = document.getElementById('updatesNotes').value || 'N/A';
+                document.getElementById('reportRaeType').textContent = document.getElementById('raeeType').value || 'N/A';
+                document.getElementById('reportDisposalMethod').textContent = document.getElementById('disposalMethod').value || 'N/A';
+                document.getElementById('reportCaseConditionNotes').textContent = document.getElementById('caseConditionNotes').value || 'N/A';
+                document.getElementById('reportSoftwareChangesNotes').textContent = document.getElementById('softwareChangesNotes').value || 'N/A';
+                document.getElementById('reportCertificateNotes').textContent = document.getElementById('certificateNotes').value || 'N/A';
+
+                // Recopilar las tareas de mantenimiento físico
+                let physicalTasks = [];
+                if (document.getElementById('physicalTask1').checked) physicalTasks.push('Limpieza de ventiladores y disipadores');
+                if (document.getElementById('physicalTask2').checked) physicalTasks.push('Reemplazo de pasta térmica');
+                document.getElementById('reportPhysicalTasks').textContent = physicalTasks.length > 0 ? physicalTasks.join(', ') : 'N/A';
+
+                // Recopilar las tareas de mantenimiento lógico
+                let logicalTasks = [];
+                if (document.getElementById('logicalTask1').checked) logicalTasks.push('Verificación de integridad de archivos del sistema');
+                if (document.getElementById('logicalTask2').checked) logicalTasks.push('Copia de seguridad de datos');
+                document.getElementById('reportLogicalTasks').textContent = logicalTasks.length > 0 ? logicalTasks.join(', ') : 'N/A';
+
+                // Recopilar las tareas de disposición final
+                let disposalTasks = [];
+                if (document.getElementById('raeeTask1').checked) disposalTasks.push('Borrado de datos seguro');
+                document.getElementById('reportDisposalTasks').textContent = disposalTasks.length > 0 ? disposalTasks.join(', ') : 'N/A';
+
+                // Mostrar el contenedor del informe para que html2canvas lo capture correctamente
+                const reportContainer = document.getElementById('reportContainer');
+                reportContainer.classList.remove('hidden');
+
+                // Usar requestAnimationFrame para asegurar que el contenido se renderice
+                await new Promise(resolve => requestAnimationFrame(resolve));
+
+                // Capturar el contenido del informe como una imagen
+                const reportContent = document.getElementById('reportContent');
+                const canvas = await html2canvas(reportContent, { scale: 2, useCORS: true });
+                
+                // Convertir el canvas a una URL de datos base64
+                const imgData = canvas.toDataURL('image/jpeg', 1.0); // Use JPEG for smaller file size
+
+                // Ocultar el contenedor del informe nuevamente
+                reportContainer.classList.add('hidden');
+                
+                // Check if the image data is valid
+                if (imgData === 'data:,' || canvas.width === 0 || canvas.height === 0) {
+                    throw new Error("Canvas is blank, cannot generate PDF.");
+                }
+
+                // Crear un nuevo documento PDF en formato de carta
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'letter'); // 'letter' for 216 x 279 mm
+                
+                // Definir las dimensiones de la imagen en el PDF para que se ajuste a una página A4
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = pdf.internal.pageSize.getHeight();
+                const imgWidth = pdfWidth;
+                const imgHeight = canvas.height * pdfWidth / canvas.width;
+                let heightLeft = imgHeight;
+                let position = 0;
+
+                // Añadir la primera página
+                pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pdfHeight;
+
+                // Añadir nuevas páginas si el contenido se desborda
+                while (heightLeft > 0) {
+                    position -= pdfHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pdfHeight;
+                }
+                
+                // Guardar el documento PDF
+                pdf.save('Informe-Mantenimiento.pdf');
+            } catch (error) {
+                console.error("Error al generar el PDF:", error);
+                // Usar un modal en lugar de alert() para notificaciones
+                const message = "Ocurrió un error al generar el PDF. Por favor, inténtalo de nuevo.";
+                const modal = document.createElement('div');
+                modal.style.position = 'fixed';
+                modal.style.top = '50%';
+                modal.style.left = '50%';
+                modal.style.transform = 'translate(-50%, -50%)';
+                modal.style.backgroundColor = 'white';
+                modal.style.padding = '20px';
+                modal.style.borderRadius = '10px';
+                modal.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+                modal.style.zIndex = '1000';
+                modal.innerHTML = `<p>${message}</p><button onclick="this.parentNode.remove()" style="margin-top: 10px; padding: 5px 10px; border-radius: 5px; background-color: #ef4444; color: white;">Cerrar</button>`;
+                document.body.appendChild(modal);
+
+                // Restaurar el botón en caso de error
+                button.textContent = originalText;
+                button.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
